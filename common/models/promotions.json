@@ -1,0 +1,44 @@
+{
+  "name": "promotions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "donation": {
+      "type": "number"
+    },
+    "discount": {
+      "type": "number"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    }, 
+    "price":{
+      "type": "number"
+    },
+    "address":{
+      "type": "string"      
+    },
+    "quantity": {
+      "type": "number"
+    }   
+  },
+  "validations": [],
+  "relations": {
+    "categories": {      
+      "type": "belongsTo",
+      "model": "categories",
+      "foreignKey": "categoriesId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
