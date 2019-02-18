@@ -38,8 +38,18 @@ const buildError = (statusCode, message) => {
  * @param {*} data an Object with the properties to be passed back to UI as the response
  */
 const buildSuccessResponse = (data) => {
-    return { statusCode: 200, ...data }
+    return { ...data, statusCode: 200,  }
 }
+
+/**
+ * Builds a generic successful structure to return to UI, with a 200 statusCode
+ * @param {*} data an Object with the properties to be passed back to UI as the response
+ */
+const buildStandarResponse = (data) => {
+    return { data:data, statusCode: 200,  }
+}
+
+
 
 /**
  * Builds a response structure for a search query
@@ -70,5 +80,6 @@ module.exports = {
     buildSuccessResponse,
     ERROR_GENERIC,
     getNotFoundErrorResponse,
-    getConcurrentPersistenceErrorResponse
+    getConcurrentPersistenceErrorResponse,
+    buildStandarResponse
 };

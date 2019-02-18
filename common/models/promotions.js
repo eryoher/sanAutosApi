@@ -1,6 +1,6 @@
 'use strict';
 const RESTUtils = require('../utils/RESTUtils');
-
+const ERROR_GENERIC = ' Error conexion con el servidor '
 module.exports = function(Promotions) {
     /**
      * To search tranport by one requerimient
@@ -28,9 +28,14 @@ module.exports = function(Promotions) {
     Promotions.search = async function (req, params) {
         let limitQuery = (params.pageSize !== undefined) ? params.pageSize : 10;
         let page = (params.page !== undefined) ? ((params.page - 1) * limitQuery) : 0;
+        let where  =  {}
+        if(params.categoryId){
+            where = { categoriesId : params.categoryId }
+        }
         
         try {
-            const filter = {                            
+            const filter = {                         
+                where: where,   
                 limit: limitQuery,
                 skip: page,                
                 include:['categories']
