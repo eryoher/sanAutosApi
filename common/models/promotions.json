@@ -6,6 +6,9 @@
     "validateUpsert": true
   },
   "properties": {
+    "name": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
@@ -29,7 +32,14 @@
     },
     "quantity": {
       "type": "number"
-    }   
+    }, 
+    "start_time":{
+      "type" : "string"
+    },
+    "end_time":{
+      "type" : "string"
+    }
+
   },
   "validations": [],
   "relations": {
@@ -40,5 +50,34 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {
+    "prototype.updatePromotion": {
+      "accepts": [
+        {
+          "arg": "ctx",
+          "type": "object",
+          "required": false,
+          "description": "",
+          "http": {
+            "source": "context"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "result",
+          "type": "object",
+          "root": true,
+          "description": ""
+        }
+      ],
+      "description": "",
+      "http": [
+        {
+          "path": "/updatePromotion",
+          "verb": "post"
+        }
+      ]
+    }
+  }
 }

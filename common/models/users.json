@@ -33,7 +33,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "role": {
+      "type": "belongsTo",
+      "model": "Role",
+      "foreignKey": ""
+    }
+  },
   "acls": [
     {
       "accessType": "*",
