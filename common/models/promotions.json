@@ -47,6 +47,14 @@
       "type": "belongsTo",
       "model": "categories",
       "foreignKey": "categoriesId"
+    },
+    "assets": {
+      "type": "hasMany",
+      "model": "assets",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [],
@@ -76,6 +84,34 @@
         {
           "path": "/updatePromotion",
           "verb": "post"
+        }
+      ]
+    },
+    "downloadImage": {
+      "accepts": [
+        {
+          "arg": "ctx",
+          "type": "object",
+          "required": false,
+          "description": "",
+          "http": {
+            "source": "context"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "result",
+          "type": "object",
+          "root": true,
+          "description": ""
+        }
+      ],
+      "description": "",
+      "http": [
+        {
+          "path": "/downloadImage",
+          "verb": "get"
         }
       ]
     }

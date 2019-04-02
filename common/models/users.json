@@ -34,11 +34,11 @@
   },
   "validations": [],
   "relations": {
-    "role": {
+    "Role": {
       "type": "belongsTo",
       "model": "Role",
       "foreignKey": ""
-    }
+    }    
   },
   "acls": [
     {

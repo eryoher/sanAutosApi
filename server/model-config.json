@@ -47,5 +47,17 @@
   "promotions": {
     "dataSource": "db",
     "public": true
+  },
+  "assets": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Image": {
+    "dataSource": "images",
+    "public": false
+  },
+  "notifications": {
+    "dataSource": "db",
+    "public": true
   }
 }

@@ -2,8 +2,26 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-
 var app = module.exports = loopback();
+var config = require('./config.json');
+const path = require('path');
+var fs = require('fs');
+
+// create sotrage dir if not exists
+const createStoragePathIfNotexists = () => {
+  const targetDir = config.imagesStoragePath;
+  const sep = path.sep;
+  const initDir = path.isAbsolute(targetDir) ? sep : '';
+  targetDir.split(sep).reduce((parentDir, childDir) => {
+    const curDir = path.resolve(parentDir, childDir);
+    if (!fs.existsSync(curDir)) {
+      fs.mkdirSync(curDir);
+    }
+    return curDir;
+  }, initDir);
+};
+
+createStoragePathIfNotexists();
 
 app.start = function() {
   // start the web server

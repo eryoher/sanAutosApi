@@ -7,5 +7,17 @@
     "password": "password",
     "name": "db",
     "connector": "mysql"
+  },
+  "images": {
+    "name": "images",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "${imagesStoragePath}",
+    "allowedContentTypes": [
+      "image/jpg",
+      "image/jpeg",
+      "image/png"
+    ],
+    "maxFileSize": "1024000"
   }
 }

@@ -1,10 +1,13 @@
 'use strict';
 const multipartyParser = require('../utils/MultiPartyParser');
-
+const ImageSaver = require('./ImageSaver');
+const config = require('../../server/config.json');
+const imageSaver = new ImageSaver(`${config.imagesStoragePath}/promotions/`)
 const RESTUtils = require('../utils/RESTUtils');
 const ERROR_GENERIC = 'Error conexion con el servidor';
 const PROMOTION_UPDATE_SUCCESS = 'La promocion se actualizo correctamente.';
-const PROMOTION_CREATE_SUCCESS = 'La promocion se creo correctamente.'
+const PROMOTION_CREATE_SUCCESS = 'La promocion se creo correctamente.';
+const IMAGES_CONTAINER ="promotions";
 
 module.exports = function(Promotions) {
 
@@ -44,7 +47,7 @@ module.exports = function(Promotions) {
                 where: where,   
                 limit: limitQuery,
                 skip: page,                
-                include:['categories']
+                include:['categories', 'assets']
             };
             
             const total = await Promotions.count()
@@ -68,21 +71,16 @@ module.exports = function(Promotions) {
    */
     Promotions.prototype.updatePromotion = async(ctx) => {
         try {
-            const { fields, files } = await multipartyParser.parse(ctx.req);
-//            console.log(fields);            
+            const { fields, files } = await multipartyParser.parse(ctx.req);                  
             const { id } = ctx.req.params;            
             const data = JSON.parse(fields.all);
             const promotion = await Promotions.findById(id);
-            promotion.updateAttributes(data);
-            
-            /*
+            promotion.updateAttributes(data);            
+            await shouldRemoveFiles(fields, promotion);
             await Promise.all([
-                updateSegments( id, segmentos ),
                 createContainerIfNotExists(IMAGES_CONTAINER),
-                imageSaver.saveImages(files, banner),
-                shouldRemoveFiles(fields, banner)
-            ])
-            */
+                imageSaver.saveImages(files.imageToSave, promotion),                
+            ]);           
             
             return RESTUtils.buildSuccessResponse({ data: PROMOTION_UPDATE_SUCCESS });
         } catch (error) {
@@ -107,17 +105,13 @@ module.exports = function(Promotions) {
     Promotions.createPromotion = async function (ctx) {    
         try {
             const { fields, files } = await multipartyParser.parse(ctx.req);
-            const data = JSON.parse(fields.all);
-            
-            const promotion = await Promotions.create(data);
-           
-
-            /*await Promise.all([
-                updateSegments( banner.id, segmentos, true ),
+            const data = JSON.parse(fields.all);            
+            const promotion = await Promotions.create(data);          
+            await shouldRemoveFiles(fields, promotion);
+            await Promise.all([
                 createContainerIfNotExists(IMAGES_CONTAINER),
-                imageSaver.saveImages(files, banner),
-                shouldRemoveFiles(fields, banner)
-            ])*/
+                imageSaver.saveImages(files.imageToSave, promotion),
+            ]);
 
             return RESTUtils.buildSuccessResponse({ data: PROMOTION_CREATE_SUCCESS });
             
@@ -127,4 +121,56 @@ module.exports = function(Promotions) {
         }
         
     }
+
+
+    const createContainerIfNotExists = async (containerName) => {
+        const storage = Promotions.app.models.Image;
+        storage.getContainers((err, containers) => {
+            if (!containers.includes(containerName)) {
+                storage.createContainer({ name: containerName }, function (err, c) {});
+            }
+        });
+    };
+
+    Promotions.prototype.sufixForFileName = (promotion) => {
+        return promotion.id
+    }
+
+    Promotions.prototype.updateImageFileName = async (entity, fileNames ) => {        
+        const assets = Promotions.app.models.Assets;
+        const promises = fileNames.map(file => {
+            return assets.create({ promotionsId:entity.id, name:file })
+        });                
+        await Promise.all( promises );       
+    }
+
+    Promotions.downloadImage = (ctx, callback) => {
+        Promotions.app.models.Image.download(IMAGES_CONTAINER, ctx.req.query.filename, ctx.req, ctx.res, err => {
+            if (err) callback(err);
+        });
+    };
+
+    const shouldRemoveFiles = async (fields, promotion) => {
+        const toRemoveFiles = fields["imagesToRemove"];
+        if (toRemoveFiles) {
+            await _deleteImages(toRemoveFiles, promotion)
+        }
+    }
+
+    const _deleteImages = async (filesToRemove, promotion) => {
+        const toRemove = filesToRemove || [];
+        const assets = Promotions.app.models.Assets;
+        
+        await toRemove.forEach(fileName => {
+            Promotions.app.models.Image.removeFile(IMAGES_CONTAINER, fileName, (err) => {
+                if (err) {
+                    return Promise.reject(err);
+                }
+            })
+        }); 
+        console.log(filesToRemove, 'para eliminar', promotion);        
+        const promises = toRemove.map(file => assets.destroyAll({ name: file}));
+        await Promise.all( promises );
+        
+    };
 };

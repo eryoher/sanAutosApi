@@ -1,0 +1,33 @@
+{
+    "name": "assets",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "name": {
+        "type": "string",
+        "required": true
+      },
+      "path": {
+        "type": "string",
+        "required": false
+      },
+      "promotionsId":{
+        "type": "number",
+        "required": false
+      }
+    },
+    "validations": [],
+    "relations": {
+      "promotions": {      
+        "type": "belongsTo",
+        "model": "promotions",
+        "foreignKey": "promotionsId"
+      }
+    },
+    "acls": [],
+    "methods": {}
+  }
+  
