@@ -1,6 +1,6 @@
 {
   "restApiRoot": "/api",
-  "host": "0.0.0.0",
+  "host": "fundacionportalmagico.org/newSite/portalMagicoApi",
   "port": 3001,
   "imagesStoragePath": "../portal-magico-imagenes",
   "remoting": {
