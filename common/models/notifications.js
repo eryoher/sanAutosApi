@@ -36,12 +36,12 @@ module.exports = function(Notification) {
                 ...params,
                 notification_id : params.id,
                 payment_id: (params.data) ? params.data.id : null,
-                data: JSON.stringify(params.data)
+                data: JSON.stringify(params)
             }
             delete data.id;
-
-
-            await Notification.create( data );
+            if( params.type ){
+                await Notification.create( data );
+            }
 
             return RESTUtils.buildSuccessResponse({ data: GET_NOTIFICATION });
 
