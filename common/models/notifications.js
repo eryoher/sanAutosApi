@@ -40,29 +40,27 @@ module.exports = function(Notification) {
                 data: JSON.stringify(params)
             }
 
-            const payment = await getPayment( params.payment_id );
-            if( payment.status == 'approved' ){
-                const order = await getOrderMercadoPago( payment.order.id );
-                const preference = await getPreferenceMercadoPago( order.preference_id );                                
-                const dataCard = {
-                    phone_number:preference.payer.phone.number,
-                    country_code:'+57',
-                    email:preference.payer.email,
-                    first_name:preference.payer.name,
-                    last_name:"Hernandez",
-                    amount:payment.transaction_amount,
-                    kind:"N",
-                    currency:"COP"
-                }       
-
-                await sendGiftCard( dataCard );                                
-            }            
-
             delete data.id;
 
             if( params.type ){
                 const responData = await Notification.create( data );
                 const payment = await getPayment( responData.payment_id );
+                if( payment.status == 'approved' ){
+                    const order = await getOrderMercadoPago( payment.order.id );
+                    const preference = await getPreferenceMercadoPago( order.preference_id );                                
+                    const dataCard = {
+                        phone_number:preference.payer.phone.number,
+                        country_code:'+57',
+                        email:preference.payer.email,
+                        first_name:preference.payer.name,
+                        last_name:"Hernandez",
+                        amount:payment.transaction_amount,
+                        kind:"N",
+                        currency:"COP"
+                    }       
+
+                    await sendGiftCard( dataCard );                                
+                } 
             }
 
             return RESTUtils.buildSuccessResponse({ data: GET_NOTIFICATION });
