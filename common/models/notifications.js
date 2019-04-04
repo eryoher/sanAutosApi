@@ -43,8 +43,7 @@ module.exports = function(Notification) {
             const payment = await getPayment( params.payment_id );
             if( payment.status == 'approved' ){
                 const order = await getOrderMercadoPago( payment.order.id );
-                const preference = await getPreferenceMercadoPago( order.preference_id );                
-                
+                const preference = await getPreferenceMercadoPago( order.preference_id );                                
                 const dataCard = {
                     phone_number:preference.payer.phone.number,
                     country_code:'+57',
@@ -56,18 +55,14 @@ module.exports = function(Notification) {
                     currency:"COP"
                 }       
 
-                const response = await sendGiftCard( dataCard );
-                return RESTUtils.buildSuccessResponse({ data: response });
-                
-            }
-
-            
+                await sendGiftCard( dataCard );                                
+            }            
 
             delete data.id;
 
             if( params.type ){
-                //const responData = await Notification.create( data );
-                //const payment = await getPayment( responData.payment_id );
+                const responData = await Notification.create( data );
+                const payment = await getPayment( responData.payment_id );
             }
 
             return RESTUtils.buildSuccessResponse({ data: GET_NOTIFICATION });
