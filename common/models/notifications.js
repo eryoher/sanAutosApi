@@ -53,7 +53,7 @@ module.exports = function(Notification) {
                         country_code:'+57',
                         email:preference.payer.email,
                         first_name:preference.payer.name,
-                        last_name:"Hernandez",
+                        last_name:preference.payer.lastname,
                         amount:payment.transaction_amount,
                         kind:"N",
                         currency:"COP"
