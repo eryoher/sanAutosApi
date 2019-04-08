@@ -1,0 +1,46 @@
+{
+    "name": "inventory",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "quantity": {
+        "type": "number",
+        "required": true
+      },
+      "type": {
+        "type": "number",
+        "required": false
+      }
+    },
+    "validations": [],
+    "relations": {
+        "promotions": {      
+            "type": "belongsTo",
+            "model": "promotions",
+            "foreignKey": "promotionsId"
+        },
+        "users": {      
+            "type": "belongsTo",
+            "model": "users",
+            "foreignKey": "usersId"
+        }
+    },
+    "acls": [
+      {
+        "accessType": "WRITE",
+        "principalType": "ROLE",
+        "principalId": "$unauthenticated",
+        "permission": "DENY"
+      }
+    ],
+    "methods": {},
+    "mixins": {     
+      "TimeStamp": {
+        "validateUpsert": true
+      }
+    }
+  }
+  

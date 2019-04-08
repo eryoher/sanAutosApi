@@ -182,3 +182,23 @@ CREATE TABLE `users` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-03-27 22:26:46
+
+CREATE TABLE `portalmagico`.`inventory` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `quantity` INT(11) NULL,
+  `type` INT(1) NULL COMMENT 'Type 1 entrada \nType 2 Salida',
+  `usersId` INT(11) NULL,
+  `created` DATETIME NULL,
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `portalmagico`.`inventory` 
+ADD COLUMN `promotionsId` INT(11) NOT NULL AFTER `created`;
+
+
+ALTER TABLE `portalmagico`.`inventory` 
+CHANGE COLUMN `promotionsId` `promotionsId` INT(11) NOT NULL AFTER `usersId`,
+CHANGE COLUMN `created` `createdAt` DATETIME NULL DEFAULT NULL ,
+ADD COLUMN `updatedAt` DATETIME NULL AFTER `createdAt`;
+
+
+

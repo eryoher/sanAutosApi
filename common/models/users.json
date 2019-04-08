@@ -38,6 +38,14 @@
       "type": "belongsTo",
       "model": "Role",
       "foreignKey": ""
+    },
+    "inventory": {
+      "type": "hasMany",
+      "model": "inventory",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }    
   },
   "acls": [

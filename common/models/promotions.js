@@ -35,24 +35,29 @@ module.exports = function(Promotions) {
     });
 
     Promotions.search = async function (req, params) {
-        let limitQuery = (params.pageSize !== undefined) ? params.pageSize : 10;
-        let page = (params.page !== undefined) ? ((params.page - 1) * limitQuery) : 0;
+        let limitQuery = (params.pageSize) ? params.pageSize : 10;
+        let page = (params.page) ? ((params.page - 1) * limitQuery) : 0;
         let where  =  {}
+        const today = new Date()        
+        today.setHours('00','00','00', '00')        
+      
         if(params.categoryId){
             where = { categoriesId : params.categoryId }
         }
+        where.start_date = { 'lte': today }
+        where.end_date = { 'gte': today }
         
         try {
             const filter = {                         
                 where: where,   
                 limit: limitQuery,
                 skip: page,                
-                include:['categories', 'assets']
-            };
+                include:['categories', 'assets', 'inventory']
+            };           
             
-            const total = await Promotions.count()
-            const data = await Promotions.find(filter);
-            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, total);            
+            const data = await getEnablePromotions(filter);
+            
+            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, data.length);            
 
         } catch (error) {
             console.error(error);
@@ -106,11 +111,13 @@ module.exports = function(Promotions) {
         try {
             const { fields, files } = await multipartyParser.parse(ctx.req);
             const data = JSON.parse(fields.all);            
+            const {quantity} = data;
             const promotion = await Promotions.create(data);          
             await shouldRemoveFiles(fields, promotion);
             await Promise.all([
                 createContainerIfNotExists(IMAGES_CONTAINER),
                 imageSaver.saveImages(files.imageToSave, promotion),
+                addQuantitytoPromotion( quantity, promotion.id )
             ]);
 
             return RESTUtils.buildSuccessResponse({ data: PROMOTION_CREATE_SUCCESS });
@@ -120,17 +127,7 @@ module.exports = function(Promotions) {
             throw RESTUtils.getServerErrorResponse(error.message ? ERROR_GENERIC : error);        
         }
         
-    }
-
-
-    const createContainerIfNotExists = async (containerName) => {
-        const storage = Promotions.app.models.Image;
-        storage.getContainers((err, containers) => {
-            if (!containers.includes(containerName)) {
-                storage.createContainer({ name: containerName }, function (err, c) {});
-            }
-        });
-    };
+    }    
 
     Promotions.prototype.sufixForFileName = (promotion) => {
         return promotion.id
@@ -147,6 +144,15 @@ module.exports = function(Promotions) {
     Promotions.downloadImage = (ctx, callback) => {
         Promotions.app.models.Image.download(IMAGES_CONTAINER, ctx.req.query.filename, ctx.req, ctx.res, err => {
             if (err) callback(err);
+        });
+    };
+
+    const createContainerIfNotExists = async (containerName) => {
+        const storage = Promotions.app.models.Image;
+        storage.getContainers((err, containers) => {
+            if (!containers.includes(containerName)) {
+                storage.createContainer({ name: containerName }, function (err, c) {});
+            }
         });
     };
 
@@ -173,4 +179,41 @@ module.exports = function(Promotions) {
         await Promise.all( promises );
         
     };
+
+    const addQuantitytoPromotion = async ( quantity, promotionsId ) => {
+        const inventory = Promotions.app.models.Inventory;
+        const now = new Date();
+        const data = {
+            quantity:quantity,
+            promotionsId:promotionsId,
+            type:1,
+            created:now,
+            usersId:1
+        }
+        return inventory.create(data);
+    }
+    
+    const getEnablePromotions = async (filter) => {
+        const data = await Promotions.find(filter);
+        const result = [];
+
+        await data.forEach(promotion => {
+            let quantity = 0 ;
+            if( promotion.inventory().length ){
+                promotion.inventory().forEach(item => {
+                    if(item.type == 1){
+                        quantity = quantity + parseInt( item.quantity );
+                    }else{
+                        quantity = quantity - parseInt( item.quantity );
+                    }
+                });
+            }
+            if(quantity){
+                promotion.total = quantity;
+                result.push( promotion );
+            }
+        });       
+        
+        return result;
+    }
 };

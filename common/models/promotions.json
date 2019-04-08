@@ -55,6 +55,14 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "inventory": {
+      "type": "hasMany",
+      "model": "inventory",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [],

@@ -57,9 +57,18 @@ module.exports = function(Notification) {
                         amount:payment.transaction_amount,
                         kind:"N",
                         currency:"COP"
-                    }       
+                    }  
+                    
+                    const dataQuantity = {
+                        quantity: preference.items[0].quantity,
+                        promotionsId:preference.external_reference,
+                        type:2
+                    }
 
-                    await sendGiftCard( dataCard );                                
+                    await Promise.all([
+                        sendGiftCard( dataCard ),
+                        addQuantitytoPromotion(dataQuantity)
+                    ])
                 } 
             }
 
@@ -109,8 +118,9 @@ module.exports = function(Notification) {
         return response.data;
     }
 
-
-
-
+    const addQuantitytoPromotion = async (params ) => {
+        const inventory = Notification.app.models.Inventory;
+        return inventory.create(params);
+    }
     
 };
