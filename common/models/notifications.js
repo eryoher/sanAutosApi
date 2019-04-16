@@ -37,27 +37,29 @@ module.exports = function(Notification) {
                 ...params,
                 notification_id : params.id,
                 payment_id: (params.data) ? params.data.id : null,
-                data: JSON.stringify(params)
+                //data: JSON.stringify(params)
             }
 
-            delete data.id;
-
+            delete data.id;           
+            
             if( params.type ){
                 const responData = await Notification.create( data );
                 const payment = await getPayment( responData.payment_id );
                 if( payment.status == 'approved' ){
                     const order = await getOrderMercadoPago( payment.order.id );
-                    const preference = await getPreferenceMercadoPago( order.preference_id );                                
+                    const preference = await getPreferenceMercadoPago( order.preference_id );
+                    const promotion = await Notification.app.models.promotions.findById( preference.external_reference, {include:['company']} );
                     const dataCard = {
                         phone_number:preference.payer.phone.number,
                         country_code:'+57',
                         email:preference.payer.email,
                         first_name:preference.payer.name,
-                        last_name:preference.payer.lastname,
-                        amount:payment.transaction_amount,
-                        kind:"N",
+                        last_name:preference.payer.surname,
+                        amount: parseFloat( promotion.discount / 100 ),
+                        campaign_id:promotion.company.code,
+                        kind:"P",
                         currency:"COP"
-                    }  
+                    }                             
                     
                     const dataQuantity = {
                         quantity: preference.items[0].quantity,
@@ -66,7 +68,7 @@ module.exports = function(Notification) {
                     }
 
                     await Promise.all([
-                        sendGiftCard( dataCard ),
+                        sendGiftCard( dataCard, preference.items[0].quantity ),
                         addQuantitytoPromotion(req, dataQuantity)
                     ])
                 } 
@@ -110,12 +112,17 @@ module.exports = function(Notification) {
         return response.data.auth_token;
     }
 
-    const sendGiftCard = async ( card ) => {        
+    const sendGiftCard = async ( card, quantity ) => {        
         const token = await getAccessTokenCard();        
         const instance = Axios.create();
+        const promises = []
         instance.defaults.headers.common['Authorization'] = token;    
-        const response = await instance.post('https://3party.2transfair.com/gift_cards', card);        
-        return response.data;
+        
+        for (let index = 0; index < quantity; index++) {            
+            promises.push( instance.post('https://3party.2transfair.com/gift_cards', card) ) ;            
+        }
+        
+        return promises;
     }
 
     const addQuantitytoPromotion = async (req, params ) => {
