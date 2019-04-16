@@ -37,11 +37,9 @@ module.exports = function(Notification) {
                 ...params,
                 notification_id : params.id,
                 payment_id: (params.data) ? params.data.id : null,
-                //data: JSON.stringify(params)
+                data: JSON.stringify(params)
             }
-
-            delete data.id;           
-            
+            delete data.id;                       
             if( params.type ){
                 const responData = await Notification.create( data );
                 const payment = await getPayment( responData.payment_id );
@@ -117,7 +115,7 @@ module.exports = function(Notification) {
         const instance = Axios.create();
         const promises = []
         instance.defaults.headers.common['Authorization'] = token;    
-        
+
         for (let index = 0; index < quantity; index++) {            
             promises.push( instance.post('https://3party.2transfair.com/gift_cards', card) ) ;            
         }
