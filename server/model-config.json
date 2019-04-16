@@ -64,6 +64,10 @@
   "inventory": {
     "dataSource": "db",
     "public": true
+  },
+  "company": {
+    "dataSource": "db",
+    "public": true
   }
 
 }

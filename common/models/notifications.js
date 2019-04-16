@@ -67,7 +67,7 @@ module.exports = function(Notification) {
 
                     await Promise.all([
                         sendGiftCard( dataCard ),
-                        addQuantitytoPromotion(dataQuantity)
+                        addQuantitytoPromotion(req, dataQuantity)
                     ])
                 } 
             }
@@ -118,9 +118,9 @@ module.exports = function(Notification) {
         return response.data;
     }
 
-    const addQuantitytoPromotion = async (params ) => {
+    const addQuantitytoPromotion = async (req, params ) => {
         const inventory = Notification.app.models.Inventory;
-        return inventory.create(params);
+        return inventory.createInventory(req, params);
     }
     
 };

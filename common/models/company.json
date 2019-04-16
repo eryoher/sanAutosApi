@@ -1,0 +1,48 @@
+{
+    "name": "company",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "name": {
+        "type": "string",
+        "required": true
+      },
+      "description": {
+        "type": "string",
+        "required": false
+      },
+      "code": {
+        "type": "string",
+        "required": false
+      }
+    },
+    "validations": [],
+    "relations": {
+        "promotions": {
+            "type": "hasMany",
+            "model": "promotions",
+            "foreignKey": "",
+            "options": {
+              "nestRemoting": true
+            }
+        }
+    },
+    "acls": [
+      {
+        "accessType": "WRITE",
+        "principalType": "ROLE",
+        "principalId": "$unauthenticated",
+        "permission": "DENY"
+      }
+    ],
+    "methods": {},
+    "mixins": {     
+      "TimeStamp": {
+        "validateUpsert": true
+      }
+    }
+  }
+  

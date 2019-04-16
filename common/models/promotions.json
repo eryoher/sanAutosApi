@@ -63,6 +63,11 @@
       "options": {
         "nestRemoting": true
       }
+    },
+    "company": {      
+      "type": "belongsTo",
+      "model": "company",
+      "foreignKey": "companyId"
     }
   },
   "acls": [],

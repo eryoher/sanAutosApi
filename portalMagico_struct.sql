@@ -201,4 +201,14 @@ CHANGE COLUMN `created` `createdAt` DATETIME NULL DEFAULT NULL ,
 ADD COLUMN `updatedAt` DATETIME NULL AFTER `createdAt`;
 
 
+CREATE TABLE `portalmagico`.`company` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(455) NULL,
+  `description` TEXT NULL,
+  `logo` TEXT NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  PRIMARY KEY (`id`));
 
+ALTER TABLE `portalmagico`.`promotions` 
+ADD COLUMN `companyId` INT(11) NULL AFTER `name`;

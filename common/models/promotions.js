@@ -46,6 +46,7 @@ module.exports = function(Promotions) {
         }
         where.start_date = { 'lte': today }
         where.end_date = { 'gte': today }
+        where.quantity = {'gt' : 0}
         
         try {
             const filter = {                         
@@ -53,11 +54,57 @@ module.exports = function(Promotions) {
                 limit: limitQuery,
                 skip: page,                
                 include:['categories', 'assets', 'inventory']
-            };           
+            };    
             
-            const data = await getEnablePromotions(filter);
+            const data = await Promotions.find(filter);
+            const total = await Promotions.count( where );
             
-            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, data.length);            
+            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, total);            
+
+        } catch (error) {
+            console.error(error);
+            throw RESTUtils.getServerErrorResponse(ERROR_GENERIC);       
+        }        
+    }
+
+    /**
+     * To search promotions to admin form
+     * @param {object} params data for search
+     * @param {Function(Error, object)} callback
+     */
+
+    Promotions.remoteMethod('adminSearch', {
+        accepts: [
+            { arg: 'req', type: 'object', http: { source: 'req' } },
+            { arg: 'params', type: 'object', 'description': 'all object data', 'http': { 'source': 'body' } },
+
+        ],
+        returns: {
+            type: 'object',
+            root: true,
+            description: 'response data of service'
+        },
+        description: 'Post current quotation',
+        http: {
+            verb: 'post'
+        },
+    });
+
+    Promotions.adminSearch = async function (req, params) {
+        let limitQuery = (params.pageSize) ? params.pageSize : 10;
+        let page = (params.page) ? ((params.page - 1) * limitQuery) : 0;                
+        
+        try {
+            const filter = {                                         
+                limit: limitQuery,
+                skip: page,                
+                include:['categories', 'assets', 'inventory', 'company']
+            };    
+            
+            const data = await Promotions.find(filter);
+            const total = await Promotions.count();
+            
+            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, total);            
 
         } catch (error) {
             console.error(error);
@@ -67,13 +114,13 @@ module.exports = function(Promotions) {
 
 
       /**
-   *
-   * @param {object} ctx
-   * @param {object} options
-   * @param {Function(Error, object)} callback
-   *
-   *
-   */
+     *
+     * @param {object} ctx
+     * @param {object} options
+     * @param {Function(Error, object)} callback
+     *
+     *
+     */
     Promotions.prototype.updatePromotion = async(ctx) => {
         try {
             const { fields, files } = await multipartyParser.parse(ctx.req);                  
@@ -105,6 +152,9 @@ module.exports = function(Promotions) {
         accepts: { arg: 'params', type: 'object', "required": false, "description": "all object data", "http": { "source": "context" } },
         returns: { arg: "response", type: "object", root: false, description: "response data of service" },
         description: "To create promotions by form",
+        http: {
+            verb: 'post'
+        },
     });
 
     Promotions.createPromotion = async function (ctx) {    
@@ -122,6 +172,57 @@ module.exports = function(Promotions) {
 
             return RESTUtils.buildSuccessResponse({ data: PROMOTION_CREATE_SUCCESS });
             
+        } catch (error) {            
+            console.log("error",error);
+            throw RESTUtils.getServerErrorResponse(error.message ? ERROR_GENERIC : error);        
+        }
+        
+    } 
+    
+    
+    /**
+     * To create banner by form
+     * @param {object} params data for search
+     * @param {Function(Error, object)} callback
+    */
+
+    Promotions.remoteMethod('getTopPromotions', {
+        accepts: [
+            { arg: 'req', type: 'object', http: { source: 'req' } },            
+
+        ],
+        returns: {
+            type: 'object',
+            root: true,
+            description: 'response data of service'
+        },
+        description: 'get top of promotions',
+        http: {
+            verb: 'get'
+        },
+    });
+
+    Promotions.getTopPromotions = async function (req) {    
+        const top = 3; //Numero de promociones a mostrar..
+        let where = {};
+        const today = new Date()        
+        today.setHours('00','00','00', '00')        
+        where.start_date = { 'lte': today }
+        where.end_date = { 'gte': today }        
+        try {
+            const filter = {                         
+                where: where,               
+                include:['assets', 'inventory']
+            };           
+            
+            let data = await getEnablePromotions(filter);
+            
+            if( data.length > top ){
+                data = getMostSalePromotions(data, top)
+            }
+
+            return RESTUtils.buildSuccessResponse({data});
+
         } catch (error) {            
             console.log("error",error);
             throw RESTUtils.getServerErrorResponse(error.message ? ERROR_GENERIC : error);        
@@ -174,7 +275,7 @@ module.exports = function(Promotions) {
                 }
             })
         }); 
-        console.log(filesToRemove, 'para eliminar', promotion);        
+        //console.log(filesToRemove, 'para eliminar', promotion);        
         const promises = toRemove.map(file => assets.destroyAll({ name: file}));
         await Promise.all( promises );
         
@@ -196,24 +297,34 @@ module.exports = function(Promotions) {
     const getEnablePromotions = async (filter) => {
         const data = await Promotions.find(filter);
         const result = [];
-
+        
         await data.forEach(promotion => {
             let quantity = 0 ;
+            let sales = 0;
             if( promotion.inventory().length ){
                 promotion.inventory().forEach(item => {
                     if(item.type == 1){
                         quantity = quantity + parseInt( item.quantity );
                     }else{
                         quantity = quantity - parseInt( item.quantity );
+                        sales = sales + parseInt( item.quantity );
                     }
                 });
             }
             if(quantity){
                 promotion.total = quantity;
+                promotion.totalSale = sales;
                 result.push( promotion );
             }
         });       
-        
+            
+                    
         return result;
+    }
+
+    const getMostSalePromotions = (data, top) => {
+        
+        return data.sort((a,b) => (a.totalSale < b.totalSale) ? 1 : ((b.totalSale < a.totalSale) ? -1 : 0)).slice(0,top);
+   
     }
 };
