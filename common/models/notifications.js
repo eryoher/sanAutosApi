@@ -120,6 +120,8 @@ module.exports = function(Notification) {
             promises.push( instance.post('https://3party.2transfair.com/gift_cards', card) ) ;            
         }
         
+        console.log(token, 'token');
+        
         return promises;
     }
 

@@ -39,8 +39,10 @@ module.exports = function(Company) {
                 skip: page,                                
             };    
             
-            const data = await Company.find(filter);
-            const total = await Company.count();
+            const [ total, data ] = await Promise.all([
+                Company.count(),
+                Company.find(filter)
+            ])
             
             return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, total);            
 

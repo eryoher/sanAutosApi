@@ -30,6 +30,10 @@
     "phone": {
       "type": "string",
       "required": false
+    }, 
+    "consentWeb":{
+      "type": "number",
+      "required": true
     }
   },
   "validations": [],

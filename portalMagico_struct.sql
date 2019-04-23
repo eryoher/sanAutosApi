@@ -212,3 +212,7 @@ CREATE TABLE `portalmagico`.`company` (
 
 ALTER TABLE `portalmagico`.`promotions` 
 ADD COLUMN `companyId` INT(11) NULL AFTER `name`;
+
+
+ALTER TABLE `portalmagico`.`users` 
+ADD COLUMN `consentWeb` VARCHAR(45) NULL AFTER `roleId`;
