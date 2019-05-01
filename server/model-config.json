@@ -55,7 +55,7 @@
   },
   "Image": {
     "dataSource": "images",
-    "public": false
+    "public": true
   },
   "notifications": {
     "dataSource": "db",
