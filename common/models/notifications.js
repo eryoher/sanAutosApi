@@ -54,11 +54,10 @@ module.exports = function(Notification) {
                         first_name:preference.payer.name,
                         last_name:preference.payer.surname,
                         amount: parseFloat( promotion.discount / 100 ),
-                        campaign_id:promotion.company.code,
+                        campaign_id:promotion.company().code,
                         kind:"P",
                         currency:"COP"
                     }                             
-                    
                     const dataQuantity = {
                         quantity: preference.items[0].quantity,
                         promotionsId:preference.external_reference,
