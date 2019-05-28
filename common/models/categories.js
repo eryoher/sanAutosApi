@@ -20,7 +20,7 @@ module.exports = function(Categories) {
             root: true,
             description: 'response data of service'
         },
-        description: 'Post current quotation',
+        description: 'get current Categories',
         http: {
             verb: 'get'
         },
