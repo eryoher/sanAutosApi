@@ -13,10 +13,6 @@
       "description": {
         "type": "string",
         "required": false
-      },
-      "code": {
-        "type": "string",
-        "required": false
       }
     },
     "validations": [],

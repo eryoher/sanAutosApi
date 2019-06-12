@@ -12,6 +12,12 @@
     "description": {
       "type": "string"
     },
+    "shortdescription": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string"
+    },
     "donation": {
       "type": "number"
     },
