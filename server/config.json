@@ -23,9 +23,7 @@
   "_appUrl" : "http://localhost:3002",   
   "appUrl" : "https://unamarcatepremia.org",
   "configSMTP":{
-    "host": "smtp.gmail.com",
-    "port": "465",
-    "secure": true,
+    "service": "gmail",
     "auth": {
         "user": "servicioalcliente@fundacionportalmagico.org",
         "pass": "fundacionsc"
