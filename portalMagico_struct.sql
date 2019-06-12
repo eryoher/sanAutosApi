@@ -241,3 +241,8 @@ ADD COLUMN `recoverCode` VARCHAR(45) NULL AFTER `activeCode`;
 
 ALTER TABLE `portalmagico`.`AuthorizationCode` 
 ADD COLUMN `usersId` INT(11) NULL AFTER `status`;
+
+
+ALTER TABLE `portalmagico`.`promotions` 
+ADD COLUMN `shortdescription` VARCHAR(160) NULL AFTER `id`,
+ADD COLUMN `condition` TEXT NULL AFTER `donation`;
