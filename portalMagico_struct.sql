@@ -216,3 +216,28 @@ ADD COLUMN `companyId` INT(11) NULL AFTER `name`;
 
 ALTER TABLE `portalmagico`.`users` 
 ADD COLUMN `consentWeb` VARCHAR(45) NULL AFTER `roleId`;
+
+
+
+CREATE TABLE `portalmagico`.`AuthorizationCode` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `code` TEXT NOT NULL,
+  `promotionsId` INT(11) NOT NULL,
+  `status` VARCHAR(45) NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  PRIMARY KEY (`id`));
+
+
+ALTER TABLE `portalmagico`.`users` 
+ADD COLUMN `active` TINYINT(1) NULL AFTER `consentWeb`;
+
+ALTER TABLE `portalmagico`.`users` 
+ADD COLUMN `activeCode` VARCHAR(45) NULL AFTER `active`;
+
+ALTER TABLE `portalmagico`.`users` 
+ADD COLUMN `recoverCode` VARCHAR(45) NULL AFTER `activeCode`;
+
+
+ALTER TABLE `portalmagico`.`AuthorizationCode` 
+ADD COLUMN `usersId` INT(11) NULL AFTER `status`;

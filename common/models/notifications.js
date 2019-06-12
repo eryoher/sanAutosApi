@@ -53,8 +53,9 @@ module.exports = function(Notification) {
                         email:preference.payer.email,
                         first_name:preference.payer.name,
                         last_name:preference.payer.surname,
-                        amount: parseFloat( promotion.discount / 100 ),
+                        amount: promotion.discount,
                         campaign_id:promotion.company().code,
+                        promotionId:promotion.id,
                         kind:"P",
                         currency:"COP"
                     }                             
@@ -65,7 +66,7 @@ module.exports = function(Notification) {
                     }
 
                     await Promise.all([
-                        sendGiftCard( dataCard, preference.items[0].quantity ),
+                        sendGiftCard( req, dataCard, preference.items[0].quantity ),
                         addQuantitytoPromotion(req, dataQuantity)
                     ])
                 } 
@@ -109,17 +110,13 @@ module.exports = function(Notification) {
         return response.data.auth_token;
     }
 
-    const sendGiftCard = async ( card, quantity ) => {        
-        const token = await getAccessTokenCard();        
-        const instance = Axios.create();
+    const sendGiftCard = async ( req, card, quantity ) => {        
+        const instance = await Notification.app.models.AuthorizationCode;
         const promises = []
-        instance.defaults.headers.common['Authorization'] = token;    
-
-        for (let index = 0; index < quantity; index++) {            
-            promises.push( instance.post('https://3party.2transfair.com/gift_cards', card) ) ;            
-        }
         
-        console.log(token, 'token');
+        for (let index = 0; index < quantity; index++) {            
+            promises.push( instance.createCode(req, card) ) ;            
+        }   
         
         return promises;
     }

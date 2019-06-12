@@ -27,10 +27,8 @@ module.exports = function(Categories) {
     });
 
     Categories.getCategoriesWithProduct = async function (req) {
-        const products = await Categories.app.models.Promotions.search(req, {pageSize:10} );
-        
+        const products = await Categories.app.models.Promotions.search(req, {pageSize:10} );        
         let categories = await Categories.find();
-
         products.data.forEach(product => {
             categories.forEach(category => {
                 if(product.categoriesId == category.id ){

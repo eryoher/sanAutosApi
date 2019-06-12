@@ -68,6 +68,10 @@
   "company": {
     "dataSource": "db",
     "public": true
+  },
+  "AuthorizationCode": {
+    "dataSource": "db",
+    "public": true
   }
 
 }

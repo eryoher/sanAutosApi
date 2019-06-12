@@ -1,0 +1,41 @@
+{
+    "name": "AuthorizationCode",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+      "validateUpsert": true
+    },
+    "properties": {
+      "code": {
+        "type": "string",
+        "required": true
+      },      
+      "status": {
+        "type": "string",
+        "required": false
+      }
+    },
+    "validations": [],
+    "relations": {
+        "promotions": {      
+            "type": "belongsTo",
+            "model": "promotions",
+            "foreignKey": "promotionsId"
+        },
+        "users": {      
+          "type": "belongsTo",
+          "model": "users",
+          "foreignKey": "usersId"
+        }
+
+    },
+    "acls": [     
+    ],
+    "methods": {},
+    "mixins": {     
+      "TimeStamp": {
+        "validateUpsert": true
+      }
+    }
+  }
+  

@@ -34,7 +34,24 @@
     "consentWeb":{
       "type": "number",
       "required": true
+    },
+    "roleId":{
+      "type": "number",
+      "required": true
+    },
+    "active":{
+      "type": "number",
+      "required": true
+    },
+    "activeCode": {
+      "type": "string",
+      "required": false
+    },
+    "recoverCode": {
+      "type": "string",
+      "required": false
     }
+
   },
   "validations": [],
   "relations": {
