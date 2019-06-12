@@ -131,7 +131,9 @@ DROP TABLE IF EXISTS `promotions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `promotions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shortdescription` varchar(160),
   `description` text,
+  `condition` text,
   `donation` float DEFAULT NULL,
   `discount` text,
   `start_date` datetime DEFAULT NULL,
