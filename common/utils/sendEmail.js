@@ -6,15 +6,17 @@ const handlebars = require('handlebars');
 const config = require('../../server/config.json');
 const configSmtp = config.configSMTP;
 
-const sendBuyPromotionEmail = ( params ) => {
+const sendBuyPromotionEmail = ( params ) => {        
     const transport = nodemailer.createTransport(configSmtp);    
     
     readHTMLFile(__dirname + '/../../common/templates/template_buy_promotion_email.html', function(err, html) {            
         let template = handlebars.compile(html);            
 
         const replacements = {
-            username: params.last_name,
-            password: params.code
+            fullName: params.last_name,
+            code: params.code,
+            discount:params.promotion.discount,
+            promotion:params.promotion.name
         };
 
         const htmlToSend = template(replacements);          
@@ -22,12 +24,12 @@ const sendBuyPromotionEmail = ( params ) => {
         transport.sendMail({
             from: 'servicioalcliente@fundacionportalmagico.org',
             to: params.email,
-            subject: `Datos del usuario ${params.first_name}`,            
+            subject: `Detalles de tu donacion ${params.first_name}`,            
             html: htmlToSend
         }, function (er) {
             if (er) console.error(er)
         });
-    });      
+    }); 
     
 }
 

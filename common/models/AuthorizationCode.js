@@ -50,7 +50,8 @@ module.exports = function(AuthorizationCode) {
         },
     });
 
-    AuthorizationCode.createCode = async function (req, params) {
+    AuthorizationCode.createCode = async function (req, params) {        
+        
         try {
             let exists = null
             let pass = '';            
@@ -59,11 +60,11 @@ module.exports = function(AuthorizationCode) {
                 pass = await CodeGenerator.generateCode(8);            
                 exists = await AuthorizationCode.findOne({where:{code:pass}});  //Se valida de que el codigo sea unico.            
             } while (exists !== null );
-            const paramsTosave = { code:pass, promotionsId:params.promotionId, usersId:user.id, status:'open' }
+            const paramsTosave = { code:pass, promotionsId:params.promotion.id, usersId:user.id, status:'open' }
             const authorization = await AuthorizationCode.create(paramsTosave);
             //console.log(authorization, params);
             if( authorization.id ){
-                sendEmail.sendBuyPromotionEmail({ code:authorization.code, ...params });
+                sendEmail.sendBuyPromotionEmail({ code:authorization.code, ...params });                               
             }
             
             return RESTUtils.buildSuccessResponse({data:authorization});                                  

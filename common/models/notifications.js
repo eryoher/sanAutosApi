@@ -53,9 +53,7 @@ module.exports = function(Notification) {
                         email:preference.payer.email,
                         first_name:preference.payer.name,
                         last_name:preference.payer.surname,
-                        amount: promotion.discount,
-                        campaign_id:promotion.company().code,
-                        promotionId:promotion.id,
+                        promotion:promotion,
                         kind:"P",
                         currency:"COP"
                     }                             
