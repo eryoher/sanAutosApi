@@ -37,26 +37,40 @@ module.exports = function(Usuario) {
     Usuario.createUser = async function (params) {        
         let response = { message: '', status: '200' }
         try {
-            const [userExists, emailExists ] = await Promise.all([
-                Usuario.findOne({ where: {username:params.username}}),
-                Usuario.findOne({ where:{email:params.email}})
-            ]);
-
-            if( !userExists ){                
-                if( !emailExists ){
-                    params.activeCode = await CodeGenerator.generateCode(10); //Codigo para la activacin del correo.
-                    const userCreated = await Usuario.create(params);                    
-                    await sendConfirmationEmail(userCreated);
-                    
-                    response.message = "El usuario se creo satisfactoriamente. Se ha enviado un correo para la confirmacion de la cuenta al email registrado.";                    
-                }else{
-                    response.message = "Error, El email ya existe por favor ingrese uno diferente.";
-                    response.status = 434;    
+            if(params.id){
+                const user = await Usuario.findById( params.id );
+                if(user){
+                    const emailExists = await Usuario.findOne({ where:{email:params.email}});                    
+                    if( !emailExists || (emailExists && params.id == emailExists.id) ){
+                        await user.updateAttributes(params);
+                        response.message= 'El usuario se actualizo correctamente.'
+                    }else{
+                        response.message = "Error, El email ya existe por favor ingrese uno diferente.";
+                        response.status = 434;  
+                    }
                 }
-                
             }else{
-                response.message = "Error, El usuario ya existe por favor ingrese uno diferente.";
-                response.status = 433;
+                const [userExists, emailExists ] = await Promise.all([
+                    Usuario.findOne({ where: {username:params.username}}),
+                    Usuario.findOne({ where:{email:params.email}})
+                ]);
+
+                if( !userExists ){                
+                    if( !emailExists ){
+                        params.activeCode = await CodeGenerator.generateCode(10); //Codigo para la activacin del correo.
+                        const userCreated = await Usuario.create(params);                    
+                        await sendConfirmationEmail(userCreated);
+                        
+                        response.message = "El usuario se creo satisfactoriamente. Se ha enviado un correo para la confirmacion de la cuenta al email registrado.";                    
+                    }else{
+                        response.message = "Error, El email ya existe por favor ingrese uno diferente.";
+                        response.status = 434;    
+                    }
+                    
+                }else{
+                    response.message = "Error, El usuario ya existe por favor ingrese uno diferente.";
+                    response.status = 433;
+                }
             }
 
             return response;
@@ -216,6 +230,82 @@ module.exports = function(Usuario) {
         
     }
 
+    /**
+     * To search tranport by one requerimient
+     * @param {object} params data for search
+     * @param {Function(Error, object)} callback
+     */
+
+    Usuario.remoteMethod('search', {
+        accepts: [
+            { arg: 'req', type: 'object', http: { source: 'req' } },
+            { arg: 'params', type: 'object', 'description': 'all object data', 'http': { 'source': 'body' } },
+
+        ],
+        returns: {
+            type: 'object',
+            root: true,
+            description: 'response data of service'
+        },
+        description: 'Post current users',
+        http: {
+            verb: 'post'
+        },
+    });
+
+    Usuario.search = async function (req, params) {
+        let limitQuery = (params.pageSize) ? params.pageSize : 10;
+        let page = (params.page) ? ((params.page - 1) * limitQuery) : 0;                
+        
+        try {
+            const filter = {                
+                limit: limitQuery,
+                skip: page,
+                include: ['Role']
+            };
+            
+            const [ data, total ] = await Promise.all([
+                Usuario.find(filter),
+                Usuario.count()
+            ])
+
+            return RESTUtils.buildResponse(data, limitQuery, (params.page) ? params.page : page, total);
+
+        } catch (error) {
+            console.error(error);
+            throw RESTUtils.getServerErrorResponse(ERROR_GENERIC);
+        }
+    }
+
+    Usuario.remoteMethod('getUser', {
+        accepts: [
+            { arg: 'req', type: 'object', http: { source: 'req' } },
+            { arg: 'params', type: 'object', 'description': 'all object data', 'http': { 'source': 'body' } },
+
+        ],
+        returns: {
+            type: 'object',
+            root: true,
+            description: 'response data of service'
+        },
+        description: 'Post current users',
+        http: {
+            verb: 'post'
+        },
+    });
+
+    Usuario.getUser = async function (req, params) {
+        try {
+
+            const user = await Usuario.findOne({where:{id:params.userId}, include:['Role']});         
+
+            return RESTUtils.buildSuccessResponse({data:user});       
+        } catch (error) {
+            console.error(error);
+            throw RESTUtils.getServerErrorResponse(ERROR_GENERIC);
+        }
+    }
+
     const sendConfirmationEmail = async (user) => {
         const params = {
             fullName : `${user.name} ${user.lastname}`,
@@ -233,6 +323,8 @@ module.exports = function(Usuario) {
         }
 
         return sendEmail.sendRecoverEmail(params);        
-    }
+    }   
+
+
     
 };

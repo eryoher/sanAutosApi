@@ -43,7 +43,14 @@
   },
   "users": {
     "dataSource": "db",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {          
+          "searchUsers":true
+        }
+      }
+    }
   },
   "promotions": {
     "dataSource": "db",
