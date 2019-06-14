@@ -20,8 +20,8 @@
     },
     "cors": false
   },
-  "appUrl" : "http://localhost:3002",   
-  "_appUrl" : "https://unamarcatepremia.org",
+  "_appUrl" : "http://localhost:3002",   
+  "appUrl" : "https://unamarcatepremia.org",
   "configSMTP":{
     "service": "gmail",
     "auth": {
