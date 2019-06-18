@@ -71,7 +71,7 @@ const sendRecoverEmail = ( params ) => {
          
         transport.sendMail({
             from: 'servicioalcliente@fundacionportalmagico.org',
-            to: 'eryoher@gmail.com',
+            to: params.email,
             subject: 'Recuperacion de contraseña',            
             html: htmlToSend
         }, function (er) {
