@@ -64,7 +64,8 @@ const sendRecoverEmail = ( params ) => {
         let template = handlebars.compile(html);            
 
         const replacements = {            
-            urlConfirmation: params.urlRecover
+            urlConfirmation: params.urlRecover,
+            username:params.username
         };
 
         const htmlToSend = template(replacements);          

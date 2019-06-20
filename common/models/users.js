@@ -146,9 +146,8 @@ module.exports = function(Usuario) {
                 const codeEmail = await CodeGenerator.generateCode(10); 
                 const updateData = { recoverCode:codeEmail };
                 if(await user.updateAttributes(updateData)){               
-                    response.message = 'Se envio un correo con las intrucciones para recuperar la contraseña';
-                    
-                    await sendRecoverEmail({email:params.email, codeUrl:codeEmail});
+                    response.message = 'Se envio un correo con las intrucciones para recuperar la contraseña';                    
+                    await sendRecoverEmail({ username:user.username, email:user.email, codeUrl:codeEmail});
                 }
             }
             
