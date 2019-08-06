@@ -1,0 +1,37 @@
+{
+    "name": "subCategories",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        }
+    },
+    "validations": [],
+    "relations": {
+        "categories": {
+            "type": "belongsTo",
+            "model": "categories",
+            "foreignKey": "categoriesId"
+        },
+        "products": {
+            "type": "hasMany",
+            "model": "products",
+            "foreignKey": "",
+            "options": {
+                "nestRemoting": true
+            }
+        }
+    },
+    "acls": [],
+    "methods": {},
+    "mixins": {
+        "TimeStamp": {
+            "validateUpsert": true
+        }
+    }
+}

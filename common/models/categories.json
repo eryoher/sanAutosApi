@@ -9,30 +9,24 @@
     "name": {
       "type": "string",
       "required": true
-    },
-    "icon": {
-      "type": "string",
-      "required": false
-    }
+    }    
   },
   "validations": [],
   "relations": {
-    "promotions": {
+    "subCategories": {
       "type": "hasMany",
-      "model": "promotions",
+      "model": "subCategories",
       "foreignKey": "",
       "options": {
         "nestRemoting": true
       }
     }
   },
-  "acls": [
-    {
-      "accessType": "WRITE",
-      "principalType": "ROLE",
-      "principalId": "$unauthenticated",
-      "permission": "DENY"
+  "acls": [],
+  "methods": {},
+  "mixins": {     
+    "TimeStamp": {
+      "validateUpsert": true
     }
-  ],
-  "methods": {}
+  }
 }

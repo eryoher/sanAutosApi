@@ -33,26 +33,19 @@
       "strictObjectIDCoercion": true
     }
   },
-  "Role": {
-    "dataSource": "db",
-    "public": true
-  },
   "categories": {
     "dataSource": "db",
     "public": true
   },
-  "users": {
+  "subCategories": {
     "dataSource": "db",
-    "public": true,
-    "options": {
-      "remoting": {
-        "sharedMethods": {          
-          "searchUsers":true
-        }
-      }
-    }
+    "public": true
   },
-  "promotions": {
+  "products": {
+    "dataSource": "db",
+    "public": true
+  },
+  "quotes": {
     "dataSource": "db",
     "public": true
   },
@@ -63,22 +56,5 @@
   "Image": {
     "dataSource": "images",
     "public": true
-  },
-  "notifications": {
-    "dataSource": "db",
-    "public": true
-  },
-  "inventory": {
-    "dataSource": "db",
-    "public": true
-  },
-  "company": {
-    "dataSource": "db",
-    "public": true
-  },
-  "AuthorizationCode": {
-    "dataSource": "db",
-    "public": true
   }
-
 }

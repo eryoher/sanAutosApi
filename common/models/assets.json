@@ -28,6 +28,11 @@
       }
     },
     "acls": [],
-    "methods": {}
+    "methods": {},
+    "mixins": {     
+      "TimeStamp": {
+        "validateUpsert": true
+      }
+    }
   }
   

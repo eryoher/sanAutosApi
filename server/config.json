@@ -2,7 +2,7 @@
   "restApiRoot": "/api",
   "host": "0.0.0.0",
   "port": 3001,
-  "imagesStoragePath": "../portal-magico-imagenes",
+  "imagesStoragePath": "../san-autos-imagenes",
   "remoting": {
     "context": false,
     "rest": {
@@ -20,8 +20,8 @@
     },
     "cors": false
   },
-  "_appUrl" : "http://localhost:3002",   
-  "appUrl" : "https://unamarcatepremia.org",
+  "appUrl" : "http://localhost:300",   
+  "_appUrl" : "https://unamarcatepremia.org",
   "configSMTP":{
     "service": "gmail",
     "auth": {

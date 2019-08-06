@@ -15,7 +15,7 @@ class ImageSaver {
     }
 
     async updateUploadedFileNames(metadataFiles, entity) {
-        const fileNames = metadataFiles.map(metadata => { return metadata.fileName });        
+        const fileNames = metadataFiles.map(metadata => { return metadata.fileName });
         await entity.updateImageFileName(entity, fileNames, metadataFiles);
     }
 
@@ -35,9 +35,9 @@ class ImageSaver {
     // class methods
     async saveImages(files, entity) {
         if (!_.isEmpty(files)) {
-            const metadataFiles = _.values(files).map(file => this.saveFile(file, entity));                        
+            const metadataFiles = _.values(files).map(file => this.saveFile(file, entity));
             await this.updateUploadedFileNames(metadataFiles, entity);
-            return metadataFiles;    
+            return metadataFiles;
         }
 
     }
@@ -47,7 +47,7 @@ class ImageSaver {
         const type = headers["content-type"];
         const indexOfSlash = type.lastIndexOf('/');
         const fileType = type.slice(indexOfSlash + 1);
-        const uploadedDate = new Date().getMilliseconds()* Math.random().toString();
+        const uploadedDate = new Date().getMilliseconds() * Math.random().toString();
         const hash = crypto.createHash('sha1').update(originalFilename + uploadedDate).digest('hex');
         return `${hash}_${entity.sufixForFileName(entity)}.${fileType}`;
     }

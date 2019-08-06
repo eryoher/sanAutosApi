@@ -1,0 +1,41 @@
+{
+    "name": "products",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "price": {
+            "type": "number",
+            "required": true
+        },
+        "description": {
+            "type": "string",
+            "required": true
+        },
+        "promotion": {
+            "type": "string",
+            "required": true
+        }
+    },
+    "validations": [],
+    "relations": {
+        "subCategories": {
+            "type": "belongsTo",
+            "model": "subCategories",
+            "foreignKey": "subCategoriesId"
+        }
+    },
+    "acls": [],
+    "methods": {},
+    "mixins": {
+        "TimeStamp": {
+            "validateUpsert": true
+        }
+    }
+}
