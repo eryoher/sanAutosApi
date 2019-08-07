@@ -29,6 +29,14 @@
             "type": "belongsTo",
             "model": "subCategories",
             "foreignKey": "subCategoriesId"
+        },
+        "assets": {
+            "type": "hasMany",
+            "model": "assets",
+            "foreignKey": "",
+            "options": {
+                "nestRemoting": true
+            }
         }
     },
     "acls": [],

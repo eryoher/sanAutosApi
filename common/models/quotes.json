@@ -21,6 +21,10 @@
         "email": {
             "type": "string",
             "required": true
+        },
+        "acceptTerms":{
+            "type": "number",
+            "required": true
         }
     },
     "validations": [],
