@@ -65,7 +65,7 @@ CREATE TABLE `AccessToken` (
 
 LOCK TABLES `AccessToken` WRITE;
 /*!40000 ALTER TABLE `AccessToken` DISABLE KEYS */;
-INSERT INTO `AccessToken` VALUES ('ECR6zyxYbXm4i99775JuwBpldHF9PHOb7JAKPFxiIfgPDCWs6b7vAStBcSTCnmNG',1209600,1,'2019-08-07 04:24:55',NULL),('Hv2PHqrRhYBNrnFp5OAxKOcRIrLg9B9c58FVyVRu7gzDgSiiLQ0N8vU99WAcDtND',1209600,1,'2019-08-07 04:27:33',NULL),('fch3Cyhb2JJuufkhScYHrJ2JuBESmZVTls0sEePgB6FNqdDYdWsEsNj0wxRfrjxV',1209600,1,'2019-08-07 04:32:04',NULL),('msaJaqrEzV26Tf245qT4hjpTQhCL0GB3mgW2QGkXIHAp8wu8gcFwxYEmivLogyB6',1209600,1,'2019-08-07 04:36:08',NULL),('D3D8i0JJwbBxsnPcsYGyODdPTQUkFessuW7GEZBeO217haHlE5A4NsOuviuFBF7B',1209600,1,'2019-08-07 04:37:10',NULL),('wb7rCxqdYQKQAlyyLkwjFGqkbAXC3WVUp0lQXo9Inzm2ColRJ5PhmDFiSTlJAJmz',1209600,1,'2019-08-07 04:57:10',NULL),('uJuHFlD09yvWcSfAXFSznbwKty0xi0BdEv2GLE2sM2XLl6yOAgRqEC41LP8WfXhS',1209600,1,'2019-08-07 04:58:32',NULL);
+INSERT INTO `AccessToken` VALUES ('ECR6zyxYbXm4i99775JuwBpldHF9PHOb7JAKPFxiIfgPDCWs6b7vAStBcSTCnmNG',1209600,1,'2019-08-07 04:24:55',NULL),('Hv2PHqrRhYBNrnFp5OAxKOcRIrLg9B9c58FVyVRu7gzDgSiiLQ0N8vU99WAcDtND',1209600,1,'2019-08-07 04:27:33',NULL),('fch3Cyhb2JJuufkhScYHrJ2JuBESmZVTls0sEePgB6FNqdDYdWsEsNj0wxRfrjxV',1209600,1,'2019-08-07 04:32:04',NULL),('msaJaqrEzV26Tf245qT4hjpTQhCL0GB3mgW2QGkXIHAp8wu8gcFwxYEmivLogyB6',1209600,1,'2019-08-07 04:36:08',NULL),('D3D8i0JJwbBxsnPcsYGyODdPTQUkFessuW7GEZBeO217haHlE5A4NsOuviuFBF7B',1209600,1,'2019-08-07 04:37:10',NULL),('wb7rCxqdYQKQAlyyLkwjFGqkbAXC3WVUp0lQXo9Inzm2ColRJ5PhmDFiSTlJAJmz',1209600,1,'2019-08-07 04:57:10',NULL),('pvw4Pv9RcmPZddtbhPQ2wuzNA9qxqrkNYtCwS1yeXyJ3Fnyaqz0qIFQpwsEEvsQg',1209600,1,'2019-08-08 02:27:54',NULL);
 /*!40000 ALTER TABLE `AccessToken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,13 +105,13 @@ DROP TABLE IF EXISTS `assets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
+  `name` text,
   `productsId` int(11) DEFAULT NULL,
   `path` text,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,6 +120,7 @@ CREATE TABLE `assets` (
 
 LOCK TABLES `assets` WRITE;
 /*!40000 ALTER TABLE `assets` DISABLE KEYS */;
+INSERT INTO `assets` VALUES (1,'32a4715f0f32c704dd0b55ffd3441d3ecdcd341f_5.jpeg',5,'32a4715f0f32c704dd0b55ffd3441d3ecdcd341f_5.jpeg','2019-08-07 21:40:30','2019-08-07 21:40:29.952'),(2,'5965e792b0ed81f74d87a86bebd64eaa4e7d7462_5.jpeg',5,'5965e792b0ed81f74d87a86bebd64eaa4e7d7462_5.jpeg','2019-08-07 21:40:30','2019-08-07 21:40:29.953'),(3,'39ba219dc1f27eaa40ef985adba49e06aab86a90_6.jpeg',6,'39ba219dc1f27eaa40ef985adba49e06aab86a90_6.jpeg','2019-08-07 21:42:49','2019-08-07 21:42:48.899'),(4,'ca90a96f4bdceaa3ba2c1051c8a31b9d848c72ff_7.jpeg',7,'ca90a96f4bdceaa3ba2c1051c8a31b9d848c72ff_7.jpeg','2019-08-07 21:59:56','2019-08-07 21:59:56.130'),(5,'cde39f67d2fc9cb069727b8bc36ec75915e65a9a_7.jpeg',7,'cde39f67d2fc9cb069727b8bc36ec75915e65a9a_7.jpeg','2019-08-07 21:59:56','2019-08-07 21:59:56.129'),(6,'b4dd76e46ff4be8d3c44ed5f97a6b97b4fb79e18_7.png',7,'b4dd76e46ff4be8d3c44ed5f97a6b97b4fb79e18_7.png','2019-08-07 21:59:56','2019-08-07 21:59:56.130'),(7,'8cc11d1205b6b66fbb8b666c33425aceadf92d5e_7.jpeg',7,'8cc11d1205b6b66fbb8b666c33425aceadf92d5e_7.jpeg','2019-08-07 21:59:56','2019-08-07 21:59:56.130'),(8,'a0bc6a7b1c268c59118c7c2e1f3f7db4278f9775_7.jpeg',7,'a0bc6a7b1c268c59118c7c2e1f3f7db4278f9775_7.jpeg','2019-08-07 22:26:48','2019-08-07 22:26:48.139'),(9,'4535483689d8112507e0d7a4399c12a515e64a97_7.jpeg',7,'4535483689d8112507e0d7a4399c12a515e64a97_7.jpeg','2019-08-07 22:26:48','2019-08-07 22:26:48.140'),(10,'24002f8e0cde9b9c65ad4ebba1d3caeadf91b661_7.png',7,'24002f8e0cde9b9c65ad4ebba1d3caeadf91b661_7.png','2019-08-07 22:26:48','2019-08-07 22:26:48.141'),(11,'3bac648c77a1002303073f38bcd2d34fddc7c56e_7.png',7,'3bac648c77a1002303073f38bcd2d34fddc7c56e_7.png','2019-08-07 22:26:48','2019-08-07 22:26:48.142');
 /*!40000 ALTER TABLE `assets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +138,7 @@ CREATE TABLE `categories` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +147,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Vehículos',NULL,NULL),(2,'Camionetas','2019-08-05 01:32:21','2019-08-05 01:32:21'),(3,'Pick Up','2019-08-05 01:32:39','2019-08-05 01:32:39');
+INSERT INTO `categories` VALUES (1,'Vehículos',NULL,NULL),(2,'Camionetas','2019-08-05 01:32:21','2019-08-05 01:32:21'),(3,'Pick Up','2019-08-05 01:32:39','2019-08-05 01:32:39'),(4,'Electricos','2019-08-07 19:48:10','2019-08-07 19:48:10');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +169,7 @@ CREATE TABLE `products` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +178,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Renault Logan Life',50000000,'Una versión para adaptarse a cada necesidad. Renault te ofrece niveles de acabados para satisfacer todas tus expectativas. Descubre los equipos que ofrecen a continuación.','80%',1,'2019-08-05 01:45:38','2019-08-05 01:45:38'),(2,'Renault Logan Life plus polar',50000000,'Estilo y confort para conducir con seguridad en cada movimiento\nRenault LOGAN Serie Limitada Polar\nRompe los límites con la Serie Limitada Renault Polar estrena hoy y recibe un reloj A370','45000000',1,'2019-08-05 01:45:57','2019-08-05 01:45:57');
+INSERT INTO `products` VALUES (1,'Renault Logan Life',50000000,'Una versión para adaptarse a cada necesidad. Renault te ofrece niveles de acabados para satisfacer todas tus expectativas. Descubre los equipos que ofrecen a continuación.','80%',1,'2019-08-05 01:45:38','2019-08-05 01:45:38'),(2,'Renault Logan Life plus polar',50000000,'Estilo y confort para conducir con seguridad en cada movimiento\nRenault LOGAN Serie Limitada Polar\nRompe los límites con la Serie Limitada Renault Polar estrena hoy y recibe un reloj A370','45000000',1,'2019-08-05 01:45:57','2019-08-05 01:45:57'),(3,'StepWay ',56000000,'El nuevo Renault SANDERO STEPWAY está hecho para los que les gusta ver las calles como un lugar lleno de aventuras. Con un diseño pensado para destacar, ahora con mayor altura al piso y rin 16\". ','1200000',2,'2019-08-07 21:35:37','2019-08-07 21:35:37'),(4,'StepWay ',56000000,'El nuevo Renault SANDERO STEPWAY está hecho para los que les gusta ver las calles como un lugar lleno de aventuras. Con un diseño pensado para destacar, ahora con mayor altura al piso y rin 16\". ','1200000',2,'2019-08-07 21:36:38','2019-08-07 21:36:38'),(5,'test',12121200,'asdadasdasdadsasdadasdasdasdasdasdasd asd asd asd','12212',1,'2019-08-07 21:40:30','2019-08-07 21:40:30'),(6,'xxxxxxxxxxx',22222200,'asdssssssssssssssssssssssssss','11212',2,'2019-08-07 21:42:49','2019-08-07 21:42:49'),(7,'Renault Last',35000000,'Prueba del concepto general','500000',1,'2019-08-07 21:59:56','2019-08-07 22:26:48');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,7 +254,7 @@ CREATE TABLE `subCategories` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,7 +263,7 @@ CREATE TABLE `subCategories` (
 
 LOCK TABLES `subCategories` WRITE;
 /*!40000 ALTER TABLE `subCategories` DISABLE KEYS */;
-INSERT INTO `subCategories` VALUES (1,'Logan',1,'2019-08-05 01:33:53','2019-08-05 01:33:53'),(2,'Sandero',1,'2019-08-05 01:34:11','2019-08-05 01:34:11');
+INSERT INTO `subCategories` VALUES (1,'Logan',1,'2019-08-05 01:33:53','2019-08-05 01:33:53'),(2,'Sandero',1,'2019-08-05 01:34:11','2019-08-05 01:34:11'),(3,'Todo Terreno 2.0',2,'2019-08-08 03:46:41','2019-08-08 03:46:51');
 /*!40000 ALTER TABLE `subCategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +293,7 @@ CREATE TABLE `users` (
   `recoverCode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,4 +315,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-07  0:12:35
+-- Dump completed on 2019-08-07 23:58:45
