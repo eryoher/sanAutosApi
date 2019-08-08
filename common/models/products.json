@@ -40,7 +40,64 @@
         }
     },
     "acls": [],
-    "methods": {},
+    "methods": {
+        "prototype.updateProduct": {
+            "accepts": [
+                {
+                    "arg": "ctx",
+                    "type": "object",
+                    "required": false,
+                    "description": "",
+                    "http": {
+                        "source": "context"
+                    }
+                }
+            ],
+            "returns": [
+                {
+                    "arg": "result",
+                    "type": "object",
+                    "root": true,
+                    "description": ""
+                }
+            ],
+            "description": "",
+            "http": [
+                {
+                    "path": "/updateProduct",
+                    "verb": "post"
+                }
+            ]
+        },
+        "downloadImage": {
+            "accepts": [
+                {
+                    "arg": "ctx",
+                    "type": "object",
+                    "required": false,
+                    "description": "",
+                    "http": {
+                        "source": "context"
+                    }
+                }
+            ],
+            "returns": [
+                {
+                    "arg": "result",
+                    "type": "object",
+                    "root": true,
+                    "description": ""
+                }
+            ],
+            "description": "",
+            "http": [
+                {
+                    "path": "/downloadImage",
+                    "verb": "get"
+                }
+            ]
+        }
+    },
     "mixins": {
         "TimeStamp": {
             "validateUpsert": true
