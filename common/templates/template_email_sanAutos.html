@@ -4,33 +4,98 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cyber Days Renault</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<style type="text/css">
 
-		#tabla{width:600px; height: 756px; margin:0 auto;background-image: url('http://admin.cyberdays.com.co/Email/fondo.jpg'); border:0px;}
-		#header{text-align: right; background-color: white; height: 75px;}
-		#Bono{margin-top: -5px;}
-		#TituloBono{text-align: center; height: 45px;  color: #fff;}
-		#TituloUser{text-align: center;  color: #e6c346; font-family:Arial,Helvetica,sans-serif; font-size: 25px; height: 10px}
-		#TituloUser p{margin: 0px; }
-		#text{height: 40px;}
-		.text{text-align: center; color:#fff}
-		#textImg{margin-top: -15px;}
-		#Cyber{text-align: center; height: 45px}
-		#LogoCyber{margin-top: -35px;}
-		.LogoCyber{width: 400px;}
+		#tabla{width:600px; height: 962px; margin:0 auto;background-image: url('http://admin.cyberdays.com.co/Email/version2/fondo.png');
+		background-repeat: no-repeat;
+		border:0px;
+	}
+
+		#cont-logo{height: 100px; text-align: center; padding-top: 70px;}
+		#Logo{width: 450px;}
+
+
+		#cont-user{
+			text-align: center;
+			color:#fff;
+			height: 40px;
+			padding-bottom: 10px;
+		}
+
+		#cont-user h2{
+			padding: 0;margin: 0;
+			font-family:Arial,Helvetica,sans-serif;font-size:30px;
+		}
+
+		#cont-info{
+			text-align: center;
+			height: 50px;
+		}
+
+		#bonoI{
+			color: #e6c346; font-size:22px;margin: 0; padding: 0;
+			font-family:Arial,Helvetica,sans-serif;
+		}
+
+
+		#precio{
+			color: #fff;
+			font-size:26px;
+			padding: 0;
+			margin: 0;
+			font-family:Arial,Helvetica,sans-serif;
+		}
+
+		#precio span{
+			color:#e6c346;
+			font-family:Arial,Helvetica,sans-serif;
+		}
+
 		#cont1{
 			text-align: center;
 			background-image: url(http://admin.cyberdays.com.co/Email/contador.png);
 			background-position: center;
-			width: 204px;
+			width: 200px;
 			margin: 0 auto;
 			background-repeat: no-repeat;
 			background-size: contain;
+			height: 130px;
 		}
-		#contador{width: 200px; text-align: center;}
-		#politicas{    text-align: center;margin-top: -80px;}
-		.politicasImg{width: 100%;}
-		#numeros {margin:0; font-size: 60px; color: #fff;  font-family:Arial,Helvetica,sans-serif;letter-spacing: 36px;margin-left: 36px;}
+
+		#numeros {
+			margin: 0;
+			font-size: 52px;
+			color: #fff;
+			font-family: Arial,Helvetica,sans-serif;
+			letter-spacing: 38px;
+			margin-left: 36px;
+		}
+
+
+		#cont-conse{
+			height: 100px; text-align: center;
+		}
+
+		#title{
+			color:#e6c346;
+			text-align: center;
+			padding: 0;margin: 0;
+			font-family:Arial,Helvetica,sans-serif;
+			font-size: 28px;
+		}
+
+		#nombre-conse{
+			color: #fff;text-align: center;padding: 0;margin: 0;
+			font-family:Arial,Helvetica,sans-serif; font-size:30px;
+		}
+
+		#cont-boton{text-align: center; width: 95%;margin: 0 auto;}
+
+		#boton, #marca {width: 95%; margin: 0 auto;}
+
+		#white{color: #fff;}
+
 	</style>
 
 </head>
@@ -40,38 +105,21 @@
 
 	<table id="tabla">
 		<tr>
-			<td id="header">
-				<img src="http://admin.cyberdays.com.co/Email/logo.png" id="logoR" alt="Renault">
-			</td>
-
-		</tr>
-
-		<tr>
-			<td id="TituloBono">
-				<img src="http://admin.cyberdays.com.co/Email/bono%20de%20descuento.png" id="Bono">
+			<td id="cont-logo">
+				<img src="http://admin.cyberdays.com.co/Email/logo-cyberdays5.png"  id="Logo">
 			</td>
 		</tr>
-		<tr>
-			<td id="TituloUser">
-				<p>{{name}}</p>
-			</td>
-		</tr>
-		<tr>
-			<td id="text">
-				<p>
-					<img src="http://admin.cyberdays.com.co/Email/text.png" id="textImg">
-				</p>
-			</td>
-		</tr>
-		<!--<tr>
-			<td class="text" >
-				<p> {{product}}</p>
-			</td>
-		</tr>-->
 
 		<tr>
-			<td id="Cyber">
-				<img src="http://admin.cyberdays.com.co/Email/logo-cyberdays5.png" class="LogoCyber">
+			<td id="cont-user">
+				<h2>{{name}}</h2>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="cont-info">
+				<h4 id="bonoI">Bono Para Tu  <span id="white"> {{product}}</span></h4>
+				<p id="precio"> <span>$</span> {{discount}}</p>
 			</td>
 		</tr>
 
@@ -82,9 +130,20 @@
 		</tr>
 
 		<tr>
-			<td id="politicas">
-				<img src="http://admin.cyberdays.com.co/Email/franja%20legal%20sin%20logos.png" class="politicasImg">
+			<td id="cont-conse">
+				<h3 id="title">Concesionario</h3><br>
+				<p id="nombre-conse">{{concecionario}}</p>
 			</td>
+		</tr>
+
+		<tr>
+			<td id="cont-boton">
+				<img src="http://admin.cyberdays.com.co/Email/version2/boton.png" id="boton">
+				<img src="http://admin.cyberdays.com.co/Email/version2/logos.png" id="marcas">
+			</td>
+		</tr>
+		<tr>
+			<td></td>
 		</tr>
 
 	</table>

@@ -10,18 +10,18 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const handlebars = require('handlebars');
 const config = require('../../server/config.json');
-const CodeGenerator = require('./CodeGenerator');
 const configSmtp = config.configSMTP;
 
 const sendquoteBono = (params) => {
     const transport = nodemailer.createTransport(configSmtp);
     readHTMLFile(__dirname + '/../../common/templates/template_email_sanAutos.html', function (err, html) {
-        let template = handlebars.compile(html);
-
+        let template = handlebars.compile(html);                
         const replacements = {
             name: params.name,
-            concecutivo: CodeGenerator.zfill(params.id, 4),
-            product: params.product.name,            
+            concecutivo: params.code,
+            product: params.product.name,  
+            discount: new Intl.NumberFormat().format(params.product.promotion),
+            concecionario: params.concecionario
         };
 
         const htmlToSend = template(replacements);
