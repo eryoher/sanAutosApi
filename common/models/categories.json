@@ -13,9 +13,9 @@
   },
   "validations": [],
   "relations": {
-    "subCategories": {
+    "products": {
       "type": "hasMany",
-      "model": "subCategories",
+      "model": "products",
       "foreignKey": "",
       "options": {
         "nestRemoting": true

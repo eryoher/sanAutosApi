@@ -21,14 +21,18 @@
         "promotion": {
             "type": "string",
             "required": true
+        },
+        "logo": {
+            "type": "string",
+            "required": true
         }
     },
     "validations": [],
     "relations": {
-        "subCategories": {
+        "categories": {
             "type": "belongsTo",
-            "model": "subCategories",
-            "foreignKey": "subCategoriesId"
+            "model": "categories",
+            "foreignKey": "categoriesId"
         },
         "assets": {
             "type": "hasMany",

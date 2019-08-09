@@ -42,7 +42,7 @@ module.exports = function (Products) {
             const filter = {
                 limit: limitQuery,
                 skip: page,
-                include: ['subCategories', 'assets']
+                include: ['categories', 'assets']
             };
 
             const data = await Products.find(filter);

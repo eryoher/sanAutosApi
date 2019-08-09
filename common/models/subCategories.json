@@ -13,19 +13,7 @@
     },
     "validations": [],
     "relations": {
-        "categories": {
-            "type": "belongsTo",
-            "model": "categories",
-            "foreignKey": "categoriesId"
-        },
-        "products": {
-            "type": "hasMany",
-            "model": "products",
-            "foreignKey": "",
-            "options": {
-                "nestRemoting": true
-            }
-        }
+       
     },
     "acls": [],
     "methods": {},

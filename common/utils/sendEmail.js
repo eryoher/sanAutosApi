@@ -27,7 +27,7 @@ const sendquoteBono = (params) => {
         const htmlToSend = template(replacements);
 
         transport.sendMail({
-            from: 'servicioalcliente@fundacionportalmagico.org',
+            from: 'cyberdaysrenault@gmail.com',
             to: params.email,
             subject: 'Detalles del bono',
             html: htmlToSend

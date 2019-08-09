@@ -48,17 +48,12 @@ module.exports = function (Quotes) {
 
     const sendContactCRM = async (params) => {
         const instance = Axios.create();
-        const customParams = {
-            txtDoc: params.cedula,
-            txtName: params.name,
-            txtCel: params.phone,
-            txtEmail: params.email,
-            txtProductoId: params.productId,
-            accion: 'ins'
-        }
+        const url = "http://admin.cyberdays.com.co/controller/contactosController.php?accion=ins";
+
+        const urlFinal = url.concat("&txtDoc=", params.cedula, "&txtName=", params.name, "&txtCel=", params.phone, "&txtEmail=",params.email, "&txtProductoId=", params.productId);        
 
         try {
-            const response = await instance.post('http://admin.cyberdays.com.co/controller/contactosController.php', customParams);
+            const response = await instance.post(urlFinal);
             return response;
         } catch (error) {
             console.error(error)
