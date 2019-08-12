@@ -41,7 +41,7 @@ module.exports = function (Quotes) {
             if( exists.length ){
                 response = {
                     success:false,
-                    message:"El bono para este producto ya fue enviado a este usuario al correo anteriormente."
+                    message:"Este usuario ya aplicó para esta referencia de vehículo."
                 }
             }else{
                 const savedQuote = await Quotes.create(params);
