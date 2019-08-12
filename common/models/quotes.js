@@ -31,21 +31,36 @@ module.exports = function (Quotes) {
     });
 
     Quotes.createQuote = async function (params) {
+        let response = {
+            success:true,
+            message:''
+        }
         try {
-            const savedQuote = await Quotes.create(params);
-            const response = await sendContactCRM(params);
-            const nameConce = response.data.NameConcess;
-
-            if (savedQuote) {
-                const product = await Quotes.app.models.Products.findById(savedQuote.productId);
-                sendEmail.sendquoteBono({ ...params, concecionario: nameConce, code: await CodeGenerator.generateCode(4), id: savedQuote.id, product });
-                return savedQuote;
+            const exists = await Quotes.find({where:{productId:params.productId, cedula:params.cedula}});
+            
+            if( exists.length ){
+                response = {
+                    success:false,
+                    message:"El bono para este producto ya fue enviado a este usuario al correo anteriormente."
+                }
+            }else{
+                const savedQuote = await Quotes.create(params);
+                const crmResponse = await sendContactCRM(params);
+                const nameConce = crmResponse.data.NameConcess;
+    
+                if (savedQuote) {
+                    const product = await Quotes.app.models.Products.findById(savedQuote.productId);
+                    sendEmail.sendquoteBono({ ...params, concecionario: nameConce, code: await CodeGenerator.generateCode(4), id: savedQuote.id, product });
+                }
+                
+                response.message = 'Se guardo satisfactoriamente.'
             }
+           
         } catch (error) {
             console.error(error)
         }
 
-        return null;
+        return response;
     }
 
 
