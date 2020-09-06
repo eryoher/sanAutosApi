@@ -15,7 +15,7 @@
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "fs-extra": "^7.0.1",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.5.3",
     "helmet": "^3.10.0",
     "log4js": "^4.0.2",
     "loopback": "^3.22.0",
